@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:supabase_aula/pages/rotas.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -11,14 +11,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
         elevation: 15,
         centerTitle: true,
         backgroundColor: Colors.blue.shade600,
-        title: const Text('Página Inicial', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+        title: const Text(
+          'Página Inicial',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
       ),
       body: Center(
@@ -26,46 +27,49 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.all(20),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemCount: 6,
-          itemBuilder: (context, index){
-            List<IconData> icons=[
-              Icons.abc,
-              Icons.ice_skating,
-              Icons.ice_skating,
-              Icons.ice_skating,
-              Icons.ice_skating,
-              Icons.ice_skating,
+          itemBuilder: (context, index) {
+            List<IconData> icons = [
+              Icons.person_add_alt_1,
+              Icons.shopify_rounded,
+              Icons.local_shipping,
+              Icons.person_search_rounded,
+              Icons.assignment,
+              Icons.business,
             ];
-            List<String> titles=[
-              'Cadastro',
-              'Cadastro',
-              'Cadastro',
-              'Cadastro',
-              'Cadastro',
-              'Cadastro',
+            List<String> titles = [
+              'Cadastrar Pessoas',
+              'Cadastro de Produtos',
+              'Cadastrar Fornecedor',
+              'Listar Pessoas',
+              'Listar Produtos',
+              'Listar Fornecedor',
             ];
             return GestureDetector(
-                onTap: () {
-              switch(index){
-                case 0: Navigator.pushNamed(context, AppRoutes.registerPersonPage);
-                break;
-
-                case 3: Navigator.pushNamed(context, AppRoutes.listPersonPage);
-                break;
-              };
-              // Aqui você pode adicionar a navegação para cada página
-              // Exemplo: Navigator.push(context, MaterialPageRoute(builder: (context) => SuaPaginaDeCadastro()));
-              print('Navegando para ${titles[index]}');
-            },
-            child: Card(
-              color: Colors.blueAccent,
-              child: Column(
+              onTap: () {
+                switch (index) {
+                  case 0:
+                  case 1:
+                  case 2:
+                    Navigator.pushNamed(context, Rotas.cadastro);
+                    break;
+                  case 3:
+                  case 4:
+                  case 5:
+                    Navigator.pushNamed(context, Rotas.listaPessoa);
+                    break;
+                }
+                print('Navegando para ${titles[index]}');
+              },
+              child: Card(
+                color: Colors.blueAccent,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(icons[index], size: 80, color: Colors.blue,),
-                    Text(titles[index], style: TextStyle(color: Colors.white),),
+                    Icon(icons[index], size: 80, color: Colors.white),
+                    Text(titles[index], style: TextStyle(color: Colors.white)),
                   ],
+                ),
               ),
-            ),
             );
           },
         ),
@@ -73,7 +77,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-class AppRoutes {
-}
-

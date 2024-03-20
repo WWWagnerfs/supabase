@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_aula/pages/cadastro.dart';
 import 'package:supabase_aula/pages/homePage.dart';
 import 'package:supabase_aula/keysSupabase.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
