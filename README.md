@@ -1,6 +1,7 @@
 # supabase_aula
 
 usando supabase
+listando no banco
 
 ## Getting Started
 
