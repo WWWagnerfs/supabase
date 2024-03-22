@@ -2,31 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:supabase_aula/database/operationsSupabase.dart';
 import '../rotas.dart';
 
-class ListaPessoaPage extends StatefulWidget {
-  const ListaPessoaPage({Key? key}) : super(key: key);
+class ListarProdutosPage extends StatefulWidget {
+  const ListarProdutosPage({super.key});
 
   @override
-  _ListaPessoaPageState createState() => _ListaPessoaPageState();
+  _ListarProdutosPageState createState() => _ListarProdutosPageState();
 }
 
-class _ListaPessoaPageState extends State<ListaPessoaPage> {
-  late Future<List<String>> _pessoasFuture;
+class _ListarProdutosPageState extends State<ListarProdutosPage> {
+  late Future<List<String>> _produtosFuture;
 
   @override
   void initState() {
     super.initState();
-    _pessoasFuture = _getPessoas();
+    _produtosFuture = _getProdutos();
   }
 
-  Future<List<String>> _getPessoas() async {
-    return OperationsSupabaseDB().getPessoasSupabase();
-  }
-
-  Future<void> _excluirPessoa(String nome) async {
-    await OperationsSupabaseDB().excluirPessoaSupabase(nome);
-    setState(() {
-      _pessoasFuture = _getPessoas();
-    });
+  Future<List<String>> _getProdutos() async {
+    return OperationsSupabaseDB().getProdutosSupabase();
   }
 
   Future<void> _showEditNameDialog(String nomeAtual, int index) async {
@@ -34,10 +27,10 @@ class _ListaPessoaPageState extends State<ListaPessoaPage> {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Editar Usuário'),
+        title: Text('Editar Produto'),
         content: TextField(
           controller: _nomeController,
-          decoration: InputDecoration(labelText: 'Nome do Usuário'),
+          decoration: InputDecoration(labelText: 'Nome do Produto'),
         ),
         actions: [
           TextButton(
@@ -48,9 +41,9 @@ class _ListaPessoaPageState extends State<ListaPessoaPage> {
           ),
           ElevatedButton(
             onPressed: () async {
-              await OperationsSupabaseDB().updatePersonRowSupabase(nomeAtual, _nomeController.text);
+              await OperationsSupabaseDB().updateProductRowSupabase(nomeAtual, _nomeController.text);
               setState(() {
-                _pessoasFuture = _getPessoas();
+                _produtosFuture = _getProdutos();
               });
               Navigator.pop(context); // Fecha o Dialog
             },
@@ -61,6 +54,14 @@ class _ListaPessoaPageState extends State<ListaPessoaPage> {
     );
   }
 
+  Future<void> _excluirProduto(String nome) async {
+    await OperationsSupabaseDB().deleteProductRowSupabase(nome);
+    setState(() {
+      _produtosFuture = _getProdutos();
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +71,7 @@ class _ListaPessoaPageState extends State<ListaPessoaPage> {
         centerTitle: true,
         backgroundColor: Colors.blue.shade600,
         title: Text(
-          'Listar Pessoas',
+          'Listar Produto',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         leading: IconButton(
@@ -81,47 +82,47 @@ class _ListaPessoaPageState extends State<ListaPessoaPage> {
         ),
       ),
       body: FutureBuilder<List<String>>(
-        future: _pessoasFuture,
+        future: _produtosFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar os dados'));
+            return Center(child: Text('Erro ao carregar os produtos'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('Nenhuma pessoa cadastrada'));
+            return Center(child: Text('Nenhum produto cadastrado'));
           } else {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                var pessoa = snapshot.data![index];
+                var produto = snapshot.data![index];
                 return Card(
                   color: Colors.blueAccent,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: EdgeInsets.all(8),
                   child: ListTile(
                     leading: GestureDetector(
                       onTap: () {
-                        _showEditNameDialog(pessoa, index);// Implemente a edição da pessoa aqui
+                        _showEditNameDialog(produto, index);
                       },
                       child: Icon(
                         Icons.edit,
                         color: Colors.tealAccent,
                       ),
                     ),
-                    title: Text(
-                      pessoa,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
                     trailing: GestureDetector(
                       onTap: () {
-                        _excluirPessoa(pessoa);
+                        _excluirProduto(produto);
                       },
                       child: Icon(
                         Icons.delete,
                         color: Colors.redAccent,
+                      ),
+                    ),
+                    title: Text(
+                      produto,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:supabase_aula/pages/rotas.dart';
+import 'package:supabase_aula/rotas.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -21,11 +21,18 @@ class _HomePageState extends State<HomePage> {
           'Página Inicial',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, Rotas.homePage);
+          },
+        ),
       ),
       body: Center(
         child: GridView.builder(
           padding: EdgeInsets.all(20),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+          gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
           itemCount: 6,
           itemBuilder: (context, index) {
             List<IconData> icons = [
@@ -48,15 +55,22 @@ class _HomePageState extends State<HomePage> {
               onTap: () {
                 switch (index) {
                   case 0:
-                  case 1:
-                  case 2:
                     Navigator.pushNamed(context, Rotas.cadastro);
                     break;
+                  case 1:
+                    Navigator.pushNamed(context, Rotas.cadastroProduto);
+                    break;
+                  case 2:
+                    Navigator.pushNamed(context, Rotas.cadastroFornecedor);
+                    break;
                   case 3:
-                  case 4:
-                  case 5:
                     Navigator.pushNamed(context, Rotas.listaPessoa);
                     break;
+                  case 4:
+                    Navigator.pushNamed(context, Rotas.listaProdutos);
+                    break;
+                  case 5:
+                    Navigator.pushNamed(context, Rotas.listaFornecedor);
                 }
                 print('Navegando para ${titles[index]}');
               },

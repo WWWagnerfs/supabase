@@ -3,26 +3,26 @@ import 'package:supabase_aula/compenents/customTextFormField.dart';
 import 'package:supabase_aula/database/operationsSupabase.dart';
 import 'package:supabase_aula/rotas.dart';
 
-class Cadastro extends StatefulWidget {
-  const Cadastro({Key? key});
+class CadastroFornecedor extends StatefulWidget {
+  const CadastroFornecedor({Key? key});
 
   @override
-  State<Cadastro> createState() => _CadastroState();
+  State<CadastroFornecedor> createState() => _CadastroFornecedorState();
 }
 
-class _CadastroState extends State<Cadastro> {
+class _CadastroFornecedorState extends State<CadastroFornecedor> {
   final TextEditingController controller_nome = TextEditingController();
   final TextEditingController controller_email = TextEditingController();
-  final TextEditingController controller_cpf = TextEditingController();
-  final TextEditingController controller_dtn = TextEditingController();
+  final TextEditingController controller_cnpj = TextEditingController();
+  final TextEditingController controller_rs = TextEditingController();
   final TextEditingController controller_telefone = TextEditingController();
 
   @override
   void dispose() {
     controller_nome.dispose();
     controller_email.dispose();
-    controller_cpf.dispose();
-    controller_dtn.dispose();
+    controller_cnpj.dispose();
+    controller_rs.dispose();
     controller_telefone.dispose();
     super.dispose();
   }
@@ -36,7 +36,7 @@ class _CadastroState extends State<Cadastro> {
         centerTitle: true,
         backgroundColor: Colors.blue.shade600,
         title: Text(
-          'Cadastrar Nova Pessoa',
+          'Cadastrar Novo Fornecedor',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         leading: IconButton(
@@ -53,24 +53,24 @@ class _CadastroState extends State<Cadastro> {
             SizedBox(height: 30),
             CustomTextFormField(campo: 'Nome Completo', controlador: controller_nome),
             SizedBox(height: 10),
-            CustomTextFormField(campo: 'E-Mail', controlador: controller_telefone),
+            CustomTextFormField(campo: 'E-Mail', controlador: controller_email),
             SizedBox(height: 10),
-            CustomTextFormField(campo: 'CPF', controlador: controller_cpf),
+            CustomTextFormField(campo: 'CNPJ', controlador: controller_cnpj),
             SizedBox(height: 10),
-            CustomTextFormField(campo: 'Data de Nascimento', controlador: controller_dtn),
+            CustomTextFormField(campo: 'Razão Social', controlador: controller_rs),
             SizedBox(height: 10),
-            CustomTextFormField(campo: 'Telefone', controlador: controller_email),
+            CustomTextFormField(campo: 'Telefone', controlador: controller_telefone),
             SizedBox(height: 20),
             Container(
               width: MediaQuery.of(context).size.width,
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  OperationsSupabaseDB().insertRowSupabase(controller_nome.text, controller_telefone.text, controller_cpf.text, controller_dtn.text, controller_email.text);
+                  OperationsSupabaseDB().insertFornecedor(controller_nome.text, controller_email.text, controller_cnpj.text, controller_rs.text, controller_telefone.text);
                   controller_nome.clear();
                   controller_email.clear();
-                  controller_cpf.clear();
-                  controller_dtn.clear();
+                  controller_cnpj.clear();
+                  controller_rs.clear();
                   controller_telefone.clear();
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Cadastro realizado com sucesso!')));
                   Navigator.pushReplacementNamed(context, Rotas.homePage);
