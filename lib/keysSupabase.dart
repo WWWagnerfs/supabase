@@ -1,5 +1,4 @@
 class KeysSupabase{
-  final String urlSupabase = '';
-  final String anonKey = '';
-
+  final String urlSupabase = 'sua url aqui';
+  final String anonKey = 'sua key aqui';
 }
